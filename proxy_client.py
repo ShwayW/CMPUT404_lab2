@@ -52,7 +52,12 @@ def main():
 		full_data = b""
 		while True:
 			data = s.recv(buffer_size)
+			if data:
+				break
+		while True:
+			data = s.recv(buffer_size)
 			if not data:
+				print("here")
 				break
 			full_data += data
 		print(full_data)
