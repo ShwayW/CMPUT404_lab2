@@ -1,5 +1,3 @@
-from multiprocessing import Pool
-import requests
 import socket
 import sys
 
@@ -32,40 +30,35 @@ def send_data(serversocket, payload):
 
 def main():
 	try:
-		host = "www.google.com"
-		port = 80
-		payload = f'GET / HTTP/1.0\r\nHost: {host}\r\n\r\n'
+		host = "localhost"
+		destination_name = "www.google.com"
+		port = 8001
 		buffer_size = 4096
 
 		s = create_tcp_socket()
 
 		remote_ip = get_remote_ip(host)
-
 		s.connect((remote_ip, port))
 		print(f'Socket Connected to {host} on ip {remote_ip}')
 
 		# send data and shut down
-		send_data(s, payload)
+		send_data(s, destination_name)
 		s.shutdown(socket.SHUT_WR)
 
 		# continue to accept data until no more left
 		full_data = b""
 		while True:
 			data = s.recv(buffer_size)
-			if data:
-				break
-		while True:
-			data = s.recv(buffer_size)
 			if not data:
-				print("here")
 				break
 			full_data += data
-		print(full_data)
+		print(str(full_data))
 	except Exception as e:
 		print(e)
 	finally:
 		# always close at the end
 		s.close()
+		print("client closed")
 
 if __name__ == "__main__":
 	main()

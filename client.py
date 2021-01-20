@@ -1,4 +1,3 @@
-from multiprocessing import Pool
 import requests
 import socket
 import sys
@@ -36,17 +35,16 @@ def main():
 		port = 80
 		payload = f'GET / HTTP/1.0\r\nHost: {host}\r\n\r\n'
 		buffer_size = 4096
-
+		# create socket
 		s = create_tcp_socket()
-
+		# get the remote IP address
 		remote_ip = get_remote_ip(host)
-
+		# connect to the remote ip through port
 		s.connect((remote_ip, port))
 		print(f'Socket Connected to {host} on ip {remote_ip}')
 
 		# send data and shut down
 		send_data(s, payload)
-		s.shutdown(socket.SHUT_WR)
 
 		# continue to accept data until no more left
 		full_data = b""
