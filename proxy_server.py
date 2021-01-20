@@ -1,7 +1,6 @@
 import socket
 import time
 import sys
-import fcntl, os
 
 HOST = ""
 PORT = 8001
