@@ -31,7 +31,8 @@ def send_data(serversocket, payload):
 def main():
 	try:
 		host = "localhost"
-		destination_name = "www.google.com"
+		destination = 'www.google.com'
+		payload = f"GET / HTTP/1.0\r\nHost: {destination}\r\n\r\n"
 		port = 8001
 		buffer_size = 4096
 
@@ -42,7 +43,7 @@ def main():
 		print(f'Socket Connected to {host} on ip {remote_ip}')
 
 		# send data and shut down
-		send_data(s, destination_name)
+		send_data(s, payload)
 		s.shutdown(socket.SHUT_WR)
 
 		# continue to accept data until no more left

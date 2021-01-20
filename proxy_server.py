@@ -38,19 +38,19 @@ def send_data(serversocket, payload):
 def make_request(payload):
 	# forwarding:
 	ps = create_tcp_socket()
-	ps_ip = get_remote_ip(payload)
+	ps_ip = get_remote_ip('www.google.com')
 	ps.connect((ps_ip, 80))
 	print(f'Proxy Socket Connected to {payload} on ip {ps_ip}')
-	send_data(ps, f'GET / HTTP/1.0\r\nHost: {payload.decode("utf-8")}\r\n\r\n')
+	send_data(ps, payload.decode("utf-8"))
 	# the data from google:
-	google_data = b""
+	full_data = b""
 	while True:
 		data = ps.recv(BUFFER_SIZE)
 		if not data:
 			break
-		google_data += data
+		full_data += data
 	ps.close()
-	return google_data
+	return full_data
 
 def main():
 	try:
